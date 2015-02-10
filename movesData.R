@@ -21,9 +21,6 @@ url <- paste('https://api.moves-app.com/oauth/v1/access_token?grant_type=authori
              auth.code, '&client_id=', client.id, '&client_secret=', client.secret, sep = '')
 token <- fromJSON(postForm(url, a = '', binary = F))$access_token
 
-#token <- 'NB7VFrM36f0oVOu19x0q5dpZOxQCiafV0N8gLNe5vhbHitD371z7UNtVha57wwKF'
-
-
 # get user profile info
 url <- paste(profile.url, 'access_token=', token, sep = '')
 profile <- fromJSON(getURL(url))

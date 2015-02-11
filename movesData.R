@@ -8,19 +8,21 @@ activities.daily.url <- 'https://api.moves-app.com/api/1.1/user/activities/daily
 profile.url <- 'https://api.moves-app.com/api/1.1/user/profile?'
 
 # get oauth token
-keys <- read.table('/Users/yren/Work/GithubProjects/Moves/keys.txt')
-client.id <- keys[1, 1]
-client.secret <- keys[2, 1]
-url <- paste('https://api.moves-app.com/oauth/v1/authorize?response_type=code&client_id=',
-             client.id,
-             '&scope=activity%20location', sep = '')
-browseURL(url)
-
-auth.code <- readline("Enter the authorization code you got from browser: ")
-
-url <- paste('https://api.moves-app.com/oauth/v1/access_token?grant_type=authorization_code&code=',
-             auth.code, '&client_id=', client.id, '&client_secret=', client.secret, sep = '')
-token <- fromJSON(postForm(url, a = '', binary = F))$access_token
+token <- readline("Enter your authorization token if you have one already, otherwise just enter pls: ")
+if (nchar(token) == 0) {
+  client.id <- readline("Enter your client id: ")
+  client.secret <- readline("Enter your client secret: ")
+  url <- paste('https://api.moves-app.com/oauth/v1/authorize?response_type=code&client_id=',
+               client.id,
+               '&scope=activity%20location', sep = '')
+  browseURL(url)
+  
+  auth.code <- readline("Enter the authorization code you got from browser: ")
+  
+  url <- paste('https://api.moves-app.com/oauth/v1/access_token?grant_type=authorization_code&code=',
+               auth.code, '&client_id=', client.id, '&client_secret=', client.secret, sep = '')
+  token <- fromJSON(postForm(url, a = '', binary = F))$access_token
+}
 
 # get user profile info
 url <- paste(profile.url, 'access_token=', token, sep = '')
@@ -95,11 +97,11 @@ home.pct <- home.hours / home.days
 
 # plot lunch time
 c <- ggplot(lunch.time, aes(date, lunch.time))
-c + stat_smooth(span = 0.5, size = 1.2) + geom_point()
+print(c + stat_smooth(span = 0.5, size = 1.2) + geom_point())
 
 # plot office hours
 c <- ggplot(in.office, aes(date, office.hours))
-c + stat_smooth(span = .5, size = 1.2) + geom_point()
+print(c + stat_smooth(span = .5, size = 1.2) + geom_point())
 
 sort(table(visit.loc))
 

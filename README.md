@@ -2,6 +2,6 @@ Export data from Moves API, and do some analysis of daily activities and locatio
 
 Open R console and run
 
-```
+```R
 source('movesData.R')
 ```

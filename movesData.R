@@ -25,7 +25,12 @@ if (nchar(token) == 0) {
 
 # get user profile info
 url <- paste(profile.url, 'access_token=', token, sep = '')
-profile <- fromJSON(getURL(url))
+profile <- tryCatch({
+  response <- getURL(url)
+  fromJSON(response)
+}, error = function(e) {
+  stop(paste("Response from Moves API: ", response, "\nPlease make sure the access token is valid or get a new token by entering client id and secret found here https://dev.moves-app.com/apps"))
+})
 first.date <- as.Date(profile$profile$firstDate, '%Y%m%d')
 to <- as.Date(first.date + 30, '%Y%m%d')
 

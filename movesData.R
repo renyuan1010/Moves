@@ -2,6 +2,7 @@ require('RCurl', quiet = T)
 require('jsonlite', quiet = T)
 require('ggplot2', quiet = T)
 
+
 places.daily.url <- 'https://api.moves-app.com/api/1.1/user/places/daily?'
 activities.daily.url <- 'https://api.moves-app.com/api/1.1/user/activities/daily?'
 profile.url <- 'https://api.moves-app.com/api/1.1/user/profile?'
